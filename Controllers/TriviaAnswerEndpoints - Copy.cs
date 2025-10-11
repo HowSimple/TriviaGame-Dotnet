@@ -5,33 +5,33 @@ using TriviaApp.Contexts;
 using TriviaApp.Models;
 namespace TriviaApp.Controllers;
 
-public static class TriviaAnswerEndpoints
+public static class TriviaQuestionEndpoints
 {
-    public static void MapTriviaAnswerEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapTriviaQuestionEndpoints (this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/TriviaAnswer").WithTags(nameof(TriviaAnswer));
+        var group = routes.MapGroup("/api/TriviaQuestion").WithTags(nameof(TriviaQuestion));
 
         group.MapGet("/", async (TriviaContext db) =>
         {
-            return await db.triviaAnswers.ToListAsync();
+            return await db.triviaQuestions.ToListAsync();
         })
-        .WithName("GetAllTriviaAnswers")
+        .WithName("GetAllTriviaQuestions")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<TriviaAnswer>, NotFound>> (int id, TriviaContext db) =>
+        group.MapGet("/{id}", async Task<Results<Ok<TriviaQuestion>, NotFound>> (int id, TriviaContext db) =>
         {
-            return await db.triviaAnswers.AsNoTracking()
+            return await db.triviaQuestions.AsNoTracking()
                 .FirstOrDefaultAsync(model => model.Id == id)
-                is TriviaAnswer model
+                is TriviaQuestion model
                     ? TypedResults.Ok(model)
                     : TypedResults.NotFound();
         })
-        .WithName("GetTriviaAnswerById")
+        .WithName("GetTriviaQuestionById")
         .WithOpenApi();
 
-        group.MapPut("/{id}", async Task<Results<Ok, NotFound>> (int id, TriviaAnswer triviaAnswer, TriviaContext db) =>
+        group.MapPut("/{id}", async Task<Results<Ok, NotFound>> (int id, TriviaQuestion triviaQuestion, TriviaContext db) =>
         {
-            var affected = await db.triviaAnswers
+            var affected = await db.triviaQuestions
                 .Where(model => model.Id == id)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(m => m.Id, triviaAnswer.Id)

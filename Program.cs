@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TriviaApp.Contexts;
 using TriviaApp.Models;
 using TriviaApp.Controllers;
+using TriviaApp;
 
 
 internal class Program
@@ -37,6 +38,8 @@ internal class Program
         app.MapControllers();
 
                     app.MapTriviaAnswerEndpoints();
+                    app.MapTriviaQuestionEndpoints();
+
 
         app.Run();
     }
