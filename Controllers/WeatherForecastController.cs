@@ -1,4 +1,7 @@
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TriviaApp.Models;
 
 namespace TriviaApp.Controllers
 {
@@ -12,22 +15,42 @@ namespace TriviaApp.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly TriviaFetchService _triviaFetchService;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration , IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _configuration = configuration;
+
+            _httpClientFactory = httpClientFactory;
+            //IHttpClientFactory httpClientFactory= new IHttpClientFactory() ;
+            //IConfiguration configuration = new IConfiguration();
+            this._triviaFetchService= new TriviaFetchService(_httpClientFactory, _configuration);
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<MovieData>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            ICollection<MovieData> movies = new List<MovieData>();
+            var movieData = await _triviaFetchService.GetMovieDetails<MovieData>();
+            if (movieData != null)
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                movies.Add(movieData);
+            }
+
+            Console.WriteLine(movies.First().original_title);
+            return movies;
+
+
+            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            //{
+            //    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            //    TemperatureC = Random.Shared.Next(-20, 55),
+            //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            //})
+            //.ToArray();
         }
     }
 }

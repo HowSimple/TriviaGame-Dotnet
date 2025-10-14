@@ -15,6 +15,10 @@ internal class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+        builder.Services.AddScoped<TriviaFetchService>();
+
+        builder.Services.AddHttpClient();
+
         builder.Services.AddDbContext<TriviaContext>(opt =>
             opt.UseInMemoryDatabase("Trivia"));
 

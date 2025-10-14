@@ -13,6 +13,8 @@ public static class TriviaQuestionEndpoints
 
         group.MapGet("/", async (TriviaContext db) =>
         {
+            
+            
             return await db.triviaQuestions.ToListAsync();
         })
         .WithName("GetAllTriviaQuestions")
