@@ -32,7 +32,9 @@ namespace TriviaApp
         public async Task<T? > GetMovieDetails<T>() {
 
             HttpClient client = _httpClientFactory.CreateClient();
-            Uri requestUri = new Uri("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2025&sort_by=popularity.desc");
+            String authKey = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjOGM4YWEzOWIwZGYyYWJjMTAyOTBmMTgxZmM5MDdkZiIsIm5iZiI6MTc2MDI5OTg3My40ODE5OTk5LCJzdWIiOiI2OGVjMGI2MWZiYjAxZjJiNmFkNjhjN2IiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.S32htx2mHmcIrj-vTGSCKq38vfC46v5r_h681yGM6Ks";
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",authKey);
+            Uri requestUri = new Uri("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1");
             var response = await client.GetAsync(requestUri);
 
 
