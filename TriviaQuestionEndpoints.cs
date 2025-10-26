@@ -13,9 +13,11 @@ public static class TriviaQuestionEndpoints
 
         group.MapGet("/", async (TriviaContext db) =>
         {
-            
-            
-            return await db.triviaQuestions.ToListAsync();
+
+            var questions = await db.triviaQuestions.ToListAsync();
+            Console.WriteLine(questions);
+
+            return questions;
         })
         .WithName("GetAllTriviaQuestions")
         .WithOpenApi();
@@ -37,23 +39,23 @@ public static class TriviaQuestionEndpoints
                 .Where(model => model.Id == id)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(m => m.Id, triviaQuestion.Id)
-                    .SetProperty(m => m.QuestionHeader, triviaQuestion.QuestionHeader)
+                    //.SetProperty(m => m.QuestionHeader, triviaQuestion.QuestionHeader)
                     .SetProperty(m => m.QuestionDescription, triviaQuestion.QuestionDescription)
-                    .SetProperty(m => m.QuestionCategory, triviaQuestion.QuestionCategory)
+                    //.SetProperty(m => m.QuestionCategory, triviaQuestion.QuestionCategory)
                     );
             return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
         })
         .WithName("UpdateTriviaQuestion")
         .WithOpenApi();
 
-        group.MapPost("/", async (TriviaQuestion triviaQuestion, TriviaContext db) =>
-        {
-            db.triviaQuestions.Add(triviaQuestion);
-            await db.SaveChangesAsync();
-            return TypedResults.Created($"/api/TriviaQuestion/{triviaQuestion.Id}",triviaQuestion);
-        })
-        .WithName("CreateTriviaQuestion")
-        .WithOpenApi();
+        //group.MapPost("/", async (TriviaQuestion triviaQuestion, TriviaContext db) =>
+        //{
+        //    db.triviaQuestions.Add(triviaQuestion);
+        //    await db.SaveChangesAsync();
+        //    return TypedResults.Created($"/api/TriviaQuestion/{triviaQuestion.Id}",triviaQuestion);
+        //})
+        //.WithName("CreateTriviaQuestion")
+        //.WithOpenApi();
 
         group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (Guid id, TriviaContext db) =>
         {
@@ -64,5 +66,14 @@ public static class TriviaQuestionEndpoints
         })
         .WithName("DeleteTriviaQuestion")
         .WithOpenApi();
+
+        group.MapPost("/Generate", async (TriviaQuestion triviaQuestion, TriviaContext db) =>
+        {
+            db.triviaQuestions.Add(triviaQuestion);
+            await db.SaveChangesAsync();
+            return TypedResults.Created($"/api/TriviaQuestion/{triviaQuestion.Id}", triviaQuestion);
+        })
+    .WithName("GenerateTriviaQuestion")
+    .WithOpenApi();
     }
 }

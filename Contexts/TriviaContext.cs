@@ -9,16 +9,18 @@ namespace TriviaApp.Contexts
         {
         //    object value = Database.SetInitializer(TriviaContext)(new CreateDatabaseIfNot);
         }
-        public DbSet<TriviaQuestion> triviaQuestions { get; set; } = null;
-        public DbSet<TriviaAnswer> triviaAnswers { get; set; } = null;
+        public DbSet<TriviaQuestion> triviaQuestions { get; set; }
+        public DbSet<TriviaAnswer> triviaAnswers { get; set; }
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
+            //modelBuilder.HasDefaultSchema("Trivia");
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(TriviaContext).Assembly);
             //modelBuilder.Entity<TriviaAnswer>().HasData(new Tri)
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
 

@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using TriviaApp.Contexts;
-using TriviaApp.Models;
-using TriviaApp.Controllers;
+//using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.Extensions.Options;
 using TriviaApp;
-
+using TriviaApp.Contexts;
+using TriviaApp.Controllers;
+using TriviaApp.Models;
 
 internal class Program
 {
@@ -14,13 +15,20 @@ internal class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers();
+
+        builder.Services.AddDbContext<TriviaContext>(options =>
+        
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+
+
+            //opt.UseInMemoryDatabase("Trivia"));
+            //options.UseSqlServer(connectionString))
+        );
         builder.Services.AddScoped<TriviaFetchService>();
 
-        builder.Services.AddHttpClient();
 
-        builder.Services.AddDbContext<TriviaContext>(opt =>
-            opt.UseInMemoryDatabase("Trivia"));
+        builder.Services.AddHttpClient();
+        builder.Services.AddControllers();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
