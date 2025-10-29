@@ -10,9 +10,9 @@ namespace TriviaApp.Contexts
         //    object value = Database.SetInitializer(TriviaContext)(new CreateDatabaseIfNot);
         }
         public DbSet<TriviaQuestion> triviaQuestions { get; set; }
-        public DbSet<TriviaAnswer> triviaAnswers { get; set; }
+        //public DbSet<TriviaAnswer> triviaAnswers { get; set; }
 
-
+        public DbSet<MovieData> movies{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -12,7 +12,7 @@ using TriviaApp.Contexts;
 namespace TriviaApp.Migrations
 {
     [DbContext(typeof(TriviaContext))]
-    [Migration("20251026215223_InitialCreate")]
+    [Migration("20251028234416_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,23 +25,55 @@ namespace TriviaApp.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TriviaApp.Models.TriviaAnswer", b =>
+            modelBuilder.Entity("TriviaApp.Models.MovieData", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Answer")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("isCorrect")
+                    b.Property<bool>("adult")
                         .HasColumnType("boolean");
 
-                    b.HasKey("Id");
+                    b.Property<string>("backdrop_path")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.ToTable("triviaAnswers");
+                    b.Property<int[]>("genre_ids")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<string>("original_language")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("original_title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("overview")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("popularity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("poster_path")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("release_date")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("movies");
                 });
 
             modelBuilder.Entity("TriviaApp.Models.TriviaQuestion", b =>

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\TriviaAnswerEndpoints - Copy.cs" />
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,10 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.SqlServer;
-using Microsoft.Extensions.Options;
 using TriviaApp;
 using TriviaApp.Contexts;
-using TriviaApp.Controllers;
-using TriviaApp.Models;
 
 internal class Program
 {
@@ -13,19 +10,12 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
         //builder.Services.AddOpenApi();
 
-        // Add services to the container.
-
-
         builder.Services.AddDbContext<TriviaContext>(options =>
-        
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 
-            //opt.UseInMemoryDatabase("Trivia"));
-            //options.UseSqlServer(connectionString))
         );
         builder.Services.AddScoped<TriviaFetchService>();
-
 
         builder.Services.AddHttpClient();
         builder.Services.AddControllers();
@@ -48,10 +38,6 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
-                    app.MapTriviaAnswerEndpoints();
-                    app.MapTriviaQuestionEndpoints();
-
 
         app.Run();
     }
