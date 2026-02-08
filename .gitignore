@@ -53,3 +53,7 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /.vs
+frontend/src/.env
+Properties/launchSettings.json
+TriviaApp.csproj
+appsettings.json
