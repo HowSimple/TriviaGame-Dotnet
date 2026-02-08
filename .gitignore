@@ -56,4 +56,10 @@ nunit-*.xml
 frontend/src/.env
 Properties/launchSettings.json
 TriviaApp.csproj
+
 appsettings.json
+/frontend/node_modules
+/frontend/.DS_Store
+/frontend/dist
+/frontend/dist-ssr
+/frontend/*.local
