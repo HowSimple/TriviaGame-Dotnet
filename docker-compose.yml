@@ -1,5 +1,29 @@
 ﻿version: "3.8"
 services:
+  trivia-backend:     
+    build:
+      context: .
+    # container_name: trivia-backend
+      dockerfile: Dockerfile
+    # restart: always
+    ports:
+      - "8000:8000"
+    environment:
+    - ASPNETCORE_URLS=http://+:8000
+    - ASPNETCORE_ENVIRONMENT=Development
+      # DATABASE_URL: postgres://admin:3YTRIL1Pnxir@postgres:5432/Trivia
+    depends_on:
+      - postgres
+  trivia-frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - trivia-backend
+
   postgres:
     image: postgres
     container_name: TriviaDB

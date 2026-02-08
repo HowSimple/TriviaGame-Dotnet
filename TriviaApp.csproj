@@ -10,11 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\AccountController2.cs" />
     <Compile Remove="Controllers\TriviaAnswerEndpoints - Copy.cs" />
     <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.21" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.21" />

@@ -10,13 +10,13 @@ using TriviaApp.Models;
 
 namespace TriviaApp.Controllers
 {
-   
-    
+    // Retrives movies from public API, and generates trivia questions
+
     [Route("api/[controller]")]
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private readonly TriviaFetchService _triviaFetchService ;
+        private readonly TriviaFetchService _triviaFetchService;
         private readonly TriviaContext _context;
         private Random random = new Random();
 
@@ -25,9 +25,9 @@ namespace TriviaApp.Controllers
             _context = context;
             _triviaFetchService = triviaFetchService;
         }
+
         protected ICollection<TriviaQuestion> GenerateQuestions(MovieData movie)
         {
-
             string yearFromTitle = $"What year was {movie.title} released?";
             TriviaQuestion question = new TriviaQuestion();
             question.CorrectAnswer = movie.release_date.Substring(0, 4);
@@ -42,20 +42,12 @@ namespace TriviaApp.Controllers
                     answer = random.Next(1940, DateTime.Now.Year).ToString();
 
                 wrongAnswers[i] = answer;
-
             }
             question.WrongAnswers = wrongAnswers;
             question.QuestionDescription = yearFromTitle;
-
             questions.Add(question);
 
-
-
-
-
-
             return questions;
-
         }
 
         // GET: api/Movie
@@ -70,7 +62,6 @@ namespace TriviaApp.Controllers
         public async Task<ActionResult<MovieData>> GetMovieData(int id)
         {
             var movieData = await _context.movies.FindAsync(id);
-
             if (movieData == null)
             {
                 return NotFound();
@@ -78,9 +69,10 @@ namespace TriviaApp.Controllers
 
             return movieData;
         }
-        [HttpPatch]
-        public async Task<IEnumerable<MovieData>> Generate() {
 
+        [HttpPatch]
+        public async Task<IEnumerable<MovieData>> Generate()
+        {
             var topRatedMovies = await _triviaFetchService.GetMovieDetails<TopRatedMovies>();
             List<MovieData>? movies = new List<MovieData>();
             if (topRatedMovies != null)
@@ -90,23 +82,20 @@ namespace TriviaApp.Controllers
                 {
                     _context.movies.Add(movies[i]);
 
-                    List<TriviaQuestion> questions = (List<TriviaQuestion>)GenerateQuestions(movies[i]);
-
+                    List<TriviaQuestion> questions =
+                        (List<TriviaQuestion>)GenerateQuestions(movies[i]);
 
                     for (int j = 0; j < questions.Count; j++)
                     {
                         var question = questions[j];
                         _context.triviaQuestions.Add(questions[j]);
                         await _context.SaveChangesAsync();
-                        Console.WriteLine(_context.triviaQuestions.Find(question.Id).QuestionDescription);
-                        Console.WriteLine(_context.triviaQuestions.Count());
                     }
                 }
             }
             return movies;
         }
         // PUT: api/Movie/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovieData(int id, MovieData movieData)
         {
@@ -137,7 +126,6 @@ namespace TriviaApp.Controllers
         }
 
         // POST: api/Movie
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<MovieData>> PostMovieData(MovieData movieData)
         {
