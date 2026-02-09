@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_auth/trivia/questions')({
 })
 
 function RouteComponent() {
- return <div>Hello "/trivia"!
+ return <div>
 
     <Question />  
   </div>
