@@ -32,19 +32,11 @@ function HomeComponent() {
           <p>Welcome back, {auth.user}!</p>
           <p>You can try going through these options:</p>
           <ol className="list-disc list-inside px-2">
-            <li>
-              <Link to="/dashboard" className="text-blue-500 hover:opacity-75">
-                Go to the auth-only dashboard page.
-              </Link>
-            </li>
-            <li>
-              <Link to="/invoices" className="text-blue-500 hover:opacity-75">
-                Go to the auth-only invoices page.
-              </Link>
-            </li>
+          
+            
             <li>
               <Link to="/trivia/questions" className="text-blue-500 hover:opacity-75">
-                Go to the auth-only trivia questions page.
+                Go to the trivia questions page.
               </Link>
             </li>
           </ol>
@@ -54,9 +46,7 @@ function HomeComponent() {
           <p>Please log in to access protected routes.</p>
           <ol className="list-disc list-inside px-2">
             <li>
-              <Link to="/login" className="text-blue-500 hover:opacity-75">
-                Go to the login page.
-              </Link>
+            
             </li>
           </ol>
         </>

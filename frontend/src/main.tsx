@@ -7,8 +7,8 @@ import { routeTree } from './routeTree.gen'
 import './styles.css'
 import { store } from './Store'
 import { Provider } from 'react-redux'
-import { useAuth0Context } from './auth/Auth0'
-import { Auth0Wrapper } from './auth/Auth0'
+
+import { AuthProvider, useAuth } from './auth'
 // Set up a Router instance
 const router = createRouter({
   routeTree,
@@ -27,18 +27,18 @@ declare module '@tanstack/react-router' {
 }
 
 function InnerApp() {
-  const auth = useAuth0Context()
+  const auth = useAuth()
   return <RouterProvider router={router} context={{ auth }} />
 }
 
 function App() {
   return (
-    <Auth0Wrapper
+    <AuthProvider 
     
     
     >
       <InnerApp />
-    </Auth0Wrapper>
+    </AuthProvider>
   )
 }
 
