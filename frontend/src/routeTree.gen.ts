@@ -10,18 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as CallbackRouteImport } from './routes/callback'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthDashboardRouteImport } from './routes/_auth.dashboard'
-import { Route as AuthTriviaQuestionsRouteImport } from './routes/_auth.trivia.questions'
+import { Route as TriviaQuestionsRouteImport } from './routes/trivia.questions'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/_auth',
+const CallbackRoute = CallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -29,55 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthDashboardRoute = AuthDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthTriviaQuestionsRoute = AuthTriviaQuestionsRouteImport.update({
+const TriviaQuestionsRoute = TriviaQuestionsRouteImport.update({
   id: '/trivia/questions',
   path: '/trivia/questions',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/trivia/questions': typeof AuthTriviaQuestionsRoute
+  '/trivia/questions': typeof TriviaQuestionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/trivia/questions': typeof AuthTriviaQuestionsRoute
+  '/trivia/questions': typeof TriviaQuestionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
+  '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
-  '/_auth/dashboard': typeof AuthDashboardRoute
-  '/_auth/trivia/questions': typeof AuthTriviaQuestionsRoute
+  '/trivia/questions': typeof TriviaQuestionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/dashboard' | '/trivia/questions'
+  fullPaths: '/' | '/callback' | '/login' | '/trivia/questions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/trivia/questions'
-  id:
-    | '__root__'
-    | '/'
-    | '/_auth'
-    | '/login'
-    | '/_auth/dashboard'
-    | '/_auth/trivia/questions'
+  to: '/' | '/callback' | '/login' | '/trivia/questions'
+  id: '__root__' | '/' | '/callback' | '/login' | '/trivia/questions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
+  CallbackRoute: typeof CallbackRoute
   LoginRoute: typeof LoginRoute
+  TriviaQuestionsRoute: typeof TriviaQuestionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -89,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthRouteImport
+    '/callback': {
+      id: '/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof CallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -103,39 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/dashboard': {
-      id: '/_auth/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/trivia/questions': {
-      id: '/_auth/trivia/questions'
+    '/trivia/questions': {
+      id: '/trivia/questions'
       path: '/trivia/questions'
       fullPath: '/trivia/questions'
-      preLoaderRoute: typeof AuthTriviaQuestionsRouteImport
-      parentRoute: typeof AuthRoute
+      preLoaderRoute: typeof TriviaQuestionsRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AuthRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
-  AuthTriviaQuestionsRoute: typeof AuthTriviaQuestionsRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
-  AuthTriviaQuestionsRoute: AuthTriviaQuestionsRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRouteWithChildren,
+  CallbackRoute: CallbackRoute,
   LoginRoute: LoginRoute,
+  TriviaQuestionsRoute: TriviaQuestionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

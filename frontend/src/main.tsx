@@ -8,14 +8,17 @@ import './styles.css'
 import { store } from './Store'
 import { Provider } from 'react-redux'
 
-import { AuthProvider, useAuth } from './auth'
+
+import { AuthProvider, useAuth, type AuthContext } from './auth'
+import { Auth0Wrapper } from './auth/Auth0'
+import { NavigationBar } from './components/NavigationBar'
 // Set up a Router instance
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   scrollRestoration: true,
   context: {
-    auth: undefined!, // This will be set after we wrap the app in an AuthProvider
+    auth: undefined! as AuthContext, // This will be set after we wrap the app in an AuthProvider
   },
 })
 
@@ -27,20 +30,41 @@ declare module '@tanstack/react-router' {
 }
 
 function InnerApp() {
-  const auth = useAuth()
+  // const auth0 = useAuth0()
+  // const auth = useAuth0Context()
+  const auth = useAuth()  
+  // const auth = {  
+  //   ...auth0,
+  //   login:  async (username:string) => {
+  //     await auth0.loginWithRedirect({
+  //       authorizationParams: {
+  //         login_hint: username, // Pass the username as a hint to Auth0
+
+  //         redirect_uri: window.location.origin,
+  //       }
+  //     })  
+  //   },
+    // logout: async () =>
+    //   await auth0.logout({ logoutParams: { returnTo: window.location.origin } }),
+  // }
   return <RouterProvider router={router} context={{ auth }} />
 }
 
 function App() {
   return (
-    <AuthProvider 
-    
-    
-    >
-      <InnerApp />
+    < Auth0Wrapper>
+    <AuthProvider>
+       <NavigationBar />
+      <InnerApp>
+      </InnerApp>
     </AuthProvider>
+     </Auth0Wrapper  >
   )
 }
+    
+    
+  
+
 
 const rootElement = document.getElementById('app')!
 

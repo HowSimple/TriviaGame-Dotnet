@@ -13,4 +13,14 @@ export default defineConfig({
     }),
     react(),
   ],
+  server: {
+    host: true, // Listen on all addresses (0.0.0.0)
+    port: 3000,
+    watch: {
+      usePolling: true, // Enable polling for Docker file system
+    },
+    hmr: {
+      host: 'localhost', // Or your Docker host IP
+    }
+  }
 })

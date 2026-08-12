@@ -4,7 +4,7 @@ services:
     build:
       context: .
     # container_name: trivia-backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     # restart: always
     ports:
       - "8000:8000"
@@ -17,10 +17,17 @@ services:
   trivia-frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile.frontend
+      # dockerfile: ./frontend/Dockerfile 
     container_name: frontend
     restart: always
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - trivia-backend
 

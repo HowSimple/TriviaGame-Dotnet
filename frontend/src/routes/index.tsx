@@ -1,40 +1,36 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
+// import { useAuth0Context } from '../auth/Auth0'
+import LoginButton from '../components/LoginButton'
 import { useAuth } from '../auth'
+import { NavigationBar } from '../components/NavigationBar'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
 })
 
 function HomeComponent() {
+  // const auth = useAuth0Context()
   const auth = useAuth()
 
   return (
     <div className="p-2 grid gap-2">
-      <h1 className="text-xl">Welcome!</h1>
-      <p className="py-4 px-2 italic bg-slate-100 dark:bg-slate-800">
-        <strong className="text-red-500">IMPORTANT!!!</strong> This is just an
-        example of how to use authenticated routes with TanStack Router.
-        <br />
-        This is NOT an example how you'd write a production-level authentication
-        system.
-        <br />
-        You'll need to take the concepts and patterns used in this example and
-        adapt then to work with your authentication flow/system for your app.
-      </p>
+      <NavigationBar />
+      {/* <h1 className="text-xl">Welcome!</h1> */}
       <p>
-        You are currently on the index route of the{' '}
-        <strong>authenticated-routes</strong> example.
+        You are currently on the index2 route.
+        
       </p>
       
       {auth.isAuthenticated ? (
         <>
           <p>Welcome back, {auth.user}!</p>
-          <p>You can try going through these options:</p>
+          {/* <p>You can try going through these options:</p> */}
           <ol className="list-disc list-inside px-2">
           
             
             <li>
+              {/* <LoginButton /> to log out. */}
               <Link to="/trivia/questions" className="text-blue-500 hover:opacity-75">
                 Go to the trivia questions page.
               </Link>
@@ -43,11 +39,18 @@ function HomeComponent() {
         </>
       ) : (
         <>
-          <p>Please log in to access protected routes.</p>
+          <p>Please  to access protected routes.</p>
           <ol className="list-disc list-inside px-2">
+
             <li>
-            
+              <Link to="/login" className="text-blue-500 hover:opacity-75">
+                Go to the login page.
+              </Link>
+              {/* <LoginButton />   to log in. */}
+    
+
             </li>
+            
           </ol>
         </>
       )}

@@ -7,6 +7,7 @@ export interface AuthContext {
   login: (username: string) => Promise<void>
   logout: () => Promise<void>
   user: string | null
+  isLoading?: boolean
 }
 
 const AuthContext = React.createContext<AuthContext | null>(null)

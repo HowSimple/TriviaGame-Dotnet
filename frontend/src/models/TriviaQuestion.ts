@@ -6,4 +6,5 @@ export interface TriviaQuestion  {
     questionTopic: string;
     wrongAnswers: string[];
     correctAnswer: string;
+    questionResult: string;
 }
